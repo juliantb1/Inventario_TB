@@ -18,7 +18,8 @@
         <div class="col-md-6">
             <label for="descripcion" class="form-label">Descripción</label>
             <input type="text" id="descripcion" name="descripcion" class="form-control">
-        </div>
+        </div> 
+        <input type="hidden" id="fechaCreacion" name="fechaCreacion">
         <div class="col-12 text-end">
             <button type="submit" class="btn btn-primary">Agregar Categoría</button>
         </div>
@@ -31,9 +32,9 @@
     {% for categoria in categorias %}
     <div class="col-md-4 mb-4">
         <div class="card p-3">
-            <h5 class="fw-bold">{{ categoria.nombre }}</h5>
-            <p>{{ categoria.descripcion or 'Sin descripción' }}</p>
-            <form action="{{ url_for('categorias.eliminar_categoria', id=categoria.id) }}" method="post">
+            <h5 class="fw-bold">{{ categoria.Nombre }}</h5>
+            <p>{{ categoria.Descripcion or 'Sin descripción' }}</p>
+            <form action="{{ url_for('categorias.eliminar_categoria', id=categoria.Id) }}" method="post">
                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
             </form>
         </div>
@@ -42,4 +43,36 @@
     <p class="text-light">No hay categorías registradas aún.</p>
     {% endfor %}
 </div>
+<script>
+    // Autocompletar la fecha actual cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const fechaInput = document.getElementById('fechaCreacion');
+        const now = new Date();
+        
+        // Formato: YYYY-MM-DD HH:MM:SS
+        const fechaFormateada = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0') + ' ' +
+            String(now.getHours()).padStart(2, '0') + ':' +
+            String(now.getMinutes()).padStart(2, '0') + ':' +
+            String(now.getSeconds()).padStart(2, '0');
+        
+        fechaInput.value = fechaFormateada;
+    });
+    
+    // Actualizar la fecha justo antes de enviar el formulario
+    document.getElementById('formCategoria').addEventListener('submit', function(e) {
+        const fechaInput = document.getElementById('fechaCreacion');
+        const now = new Date();
+        
+        const fechaFormateada = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0') + ' ' +
+            String(now.getHours()).padStart(2, '0') + ':' +
+            String(now.getMinutes()).padStart(2, '0') + ':' +
+            String(now.getSeconds()).padStart(2, '0');
+        
+        fechaInput.value = fechaFormateada;
+    });
+</script>
 {% endblock %}
