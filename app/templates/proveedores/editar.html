@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Editar Proveedor{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Editar Proveedor</h4>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nombre" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" 
+                                       value="{{ proveedor.Nombre }}" maxlength="150" required>
+                                <div class="form-text">Maximo 150 caracteres</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="contacto" class="form-label">Persona de Contacto</label>
+                                <input type="text" class="form-control" id="contacto" name="contacto"
+                                       value="{{ proveedor.Contacto or '' }}" maxlength="100">
+                                <div class="form-text">Maximo 100 caracteres</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="telefono" class="form-label">Telefono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                       value="{{ proveedor.Telefono or '' }}" maxlength="20">
+                                <div class="form-text">Maximo 20 caracteres</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                       value="{{ proveedor.Email or '' }}" maxlength="150">
+                                <div class="form-text">Formato: ejemplo@dominio.com</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label">Direccion</label>
+                            <textarea class="form-control" id="direccion" name="direccion" 
+                                      rows="3" maxlength="500">{{ proveedor.Direccion or '' }}</textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('proveedores.listar_proveedores') }}" 
+                               class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-warning">Actualizar Proveedor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

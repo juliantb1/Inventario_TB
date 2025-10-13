@@ -6,24 +6,27 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
 
-    
     app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mssql+pyodbc://@localhost/InventarioRestaurante?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes'
-)
-
+        'mssql+pyodbc://@localhost/InventarioRestaurante?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes'
+    )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = 'clave-secreta'
 
     db.init_app(app)
 
-    
+    # Importar y registrar blueprints
     from app.routes.categorias import categorias_bp
+    from app.routes.proveedores import proveedores_bp
+    
     app.register_blueprint(categorias_bp)
+    app.register_blueprint(proveedores_bp)
 
     with app.app_context():
+        # Importar modelos para que SQLAlchemy los reconozca
         from app.models.categorias import Categoria
+        from app.models.proveedores import Proveedor
         
-        pass
+        # Crear todas las tablas
+        db.create_all()
 
     return app
-
