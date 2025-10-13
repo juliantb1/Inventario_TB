@@ -5,10 +5,39 @@ from datetime import datetime
 
 categorias_bp = Blueprint('categorias', __name__, url_prefix='/categorias')
 
-# Listar categorías
+# Listar categorías - CON DEBUG
 @categorias_bp.route('/')
 def listar_categorias():
-    categorias = Categoria.query.all()
+    # Obtener parámetros de búsqueda y ordenamiento
+    search = request.args.get('search', '')
+    sort_by = request.args.get('sort_by', 'nombre')
+    
+    # DEBUG: Mostrar parámetros recibidos
+    print(f"🔍 DEBUG: search='{search}', sort_by='{sort_by}'")
+    
+    # Consulta base
+    query = Categoria.query
+    
+    # Aplicar filtro de búsqueda si existe
+    if search:
+        query = query.filter(Categoria.Nombre.ilike(f'%{search}%'))
+        print(f"🔍 FILTRANDO por: {search}")
+    
+    # Aplicar ordenamiento
+    if sort_by == 'fecha':
+        query = query.order_by(Categoria.FechaCreacion.desc())  # Más reciente primero
+        print("📅 ORDENANDO por fecha DESC")
+    else:
+        query = query.order_by(Categoria.Nombre.asc())  # Orden alfabético
+        print("📝 ORDENANDO por nombre ASC")
+    
+    categorias = query.all()
+    
+    # DEBUG: Mostrar fechas y orden en terminal
+    print("📊 CATEGORÍAS EN ORDEN:")
+    for i, cat in enumerate(categorias):
+        print(f"   {i+1}. {cat.Nombre} - Fecha: {cat.FechaCreacion} - Activo: {cat.Activo}")
+    
     return render_template('categorias/lista.html', categorias=categorias)
 
 # Agregar categoría
@@ -70,4 +99,3 @@ def eliminar_categoria(id):
     db.session.commit()
     flash('Categoría eliminada correctamente.', 'success')
     return redirect(url_for('categorias.listar_categorias'))
-

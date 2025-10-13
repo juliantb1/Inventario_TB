@@ -7,7 +7,7 @@
     <p class="text-light">Administra las categorías del inventario del restaurante</p>
 </div>
 
-<!-- Formulario -->
+<!-- Formulario de crear -->
 <div class="card p-4 mb-5">
     <h5 class="mb-3">Agregar Nueva Categoría</h5>
     <form action="{{ url_for('categorias.agregar_categoria') }}" method="post" class="row g-3">
@@ -26,42 +26,72 @@
     </form>
 </div>
 
+<!-- Búsqueda y Ordenamiento -->
+<div class="card p-3 mb-4">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <form method="get" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" 
+                       placeholder="Buscar por nombre..." 
+                       value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="btn btn-outline-primary">Buscar</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label class="me-2">Ordenar por:</label>
+                <select class="form-select" onchange="window.location.href = this.value">
+                    <option value="?sort_by=nombre" {% if request.args.get('sort_by') == 'nombre' %}selected{% endif %}>
+                        Nombre (A-Z)
+                    </option>
+                    <option value="?sort_by=fecha" {% if request.args.get('sort_by') == 'fecha' %}selected{% endif %}>
+                        Fecha (más reciente)
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Lista de categorías -->
 <h3 class="mb-3">Categorías Registradas</h3>
 <div class="row">
     {% for categoria in categorias %}
-    <div class="col-md-4 mb-4">
+    <div class="col-md-6 mb-4">
         <div class="card p-3">
             <h5 class="fw-bold">{{ categoria.Nombre }}</h5>
-            <p>{{ categoria.Descripcion or 'Sin descripción' }}</p>
-            <form action="{{ url_for('categorias.eliminar_categoria', id=categoria.Id) }}" method="post">
-                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-            </form>
+            <p class="mb-1">{{ categoria.Descripcion or 'Sin descripción' }}</p>
+            
+            <!-- Fecha de creación -->
+            <small class="text-muted">
+                📅 Creado: {{ categoria.FechaCreacion.strftime('%d/%m/%Y %H:%M') }}
+            </small>
+            
+            <!-- Estado Activo/Inactivo -->
+            <div class="mt-2">
+                <span class="badge {% if categoria.Activo %}bg-success{% else %}bg-secondary{% endif %}">
+                    {{ 'Activo' if categoria.Activo else 'Inactivo' }}
+                </span>
+            </div>
+            
+            <!-- Botones -->
+            <div class="mt-3">
+                <a href="{{ url_for('categorias.editar_categoria', id=categoria.Id) }}" 
+                   class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ url_for('categorias.eliminar_categoria', id=categoria.Id) }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </div>
         </div>
     </div>
     {% else %}
     <p class="text-light">No hay categorías registradas aún.</p>
     {% endfor %}
 </div>
+
 <script>
-    // Autocompletar la fecha actual cuando se carga la página
+    // JAVASCRIPT SIMPLIFICADO Y FUNCIONAL
     document.addEventListener('DOMContentLoaded', function() {
-        const fechaInput = document.getElementById('fechaCreacion');
-        const now = new Date();
-        
-        // Formato: YYYY-MM-DD HH:MM:SS
-        const fechaFormateada = now.getFullYear() + '-' +
-            String(now.getMonth() + 1).padStart(2, '0') + '-' +
-            String(now.getDate()).padStart(2, '0') + ' ' +
-            String(now.getHours()).padStart(2, '0') + ':' +
-            String(now.getMinutes()).padStart(2, '0') + ':' +
-            String(now.getSeconds()).padStart(2, '0');
-        
-        fechaInput.value = fechaFormateada;
-    });
-    
-    // Actualizar la fecha justo antes de enviar el formulario
-    document.getElementById('formCategoria').addEventListener('submit', function(e) {
         const fechaInput = document.getElementById('fechaCreacion');
         const now = new Date();
         

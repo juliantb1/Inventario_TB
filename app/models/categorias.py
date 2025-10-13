@@ -8,7 +8,8 @@ class Categoria(db.Model):
     Nombre = db.Column(db.String(100), nullable=False, unique=True)
     Descripcion = db.Column(db.String(200))
     Activo = db.Column(db.Boolean, default=True)     
-    FechaCreacion = db.Column(db.DateTime, nullable = False)
+    FechaCreacion = db.Column(db.DateTime, nullable=False)
+    
     def __repr__(self):
-        return f'<Categoria {self.nombre}>'
+        return f'<Categoria {self.Nombre}>'  # CORREGIDO: self.Nombre con mayúscula
 
