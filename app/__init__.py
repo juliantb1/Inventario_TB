@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -13,6 +13,11 @@ def create_app():
     app.secret_key = 'clave-secreta'
 
     db.init_app(app)
+
+    # Ruta de inicio - AGREGA ESTO
+    @app.route('/')
+    def inicio():
+        return render_template('inicio.html')
 
     # Importar y registrar blueprints
     from app.routes.categorias import categorias_bp

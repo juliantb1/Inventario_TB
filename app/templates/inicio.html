@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Inicio - Inventario TB{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 fw-bold text-white mb-4">Sistema de Inventario TacoBell</h1>
+            <p class="lead text-light mb-5">Gestiona categorías, proveedores y productos de tu restaurante</p>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title text-primary">Categorías</h3>
+                            <p class="card-text">Administra las categorías de productos del inventario</p>
+                            <a href="{{ url_for('categorias.listar_categorias') }}" class="btn btn-primary">Gestionar Categorías</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title text-success">Proveedores</h3>
+                            <p class="card-text">Gestiona proveedores y contactos</p>
+                            <a href="{{ url_for('proveedores.listar_proveedores') }}" class="btn btn-success">Gestionar Proveedores</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4 mt-2">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title text-warning">Productos</h3>
+                            <p class="card-text">Administra el inventario de productos (Próximamente)</p>
+                            <button class="btn btn-warning" disabled>Próximamente</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title text-info">Reportes</h3>
+                            <p class="card-text">Genera reportes e informes del inventario (Próximamente)</p>
+                            <button class="btn btn-info" disabled>Próximamente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
