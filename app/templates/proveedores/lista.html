@@ -2,8 +2,8 @@
 {% block title %}Proveedores{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
+    <div class="text-center text-md-start mb-3 mb-md-0">
         <h1 class="fw-bold text-white">Gestion de Proveedores</h1>
         <p class="text-light">Administra los proveedores del restaurante</p>
     </div>
@@ -14,21 +14,19 @@
     </div>
 </div>
 
-<!-- ELIMINÉ LA SECCIÓN DE MENSAJES - YA ESTÁ EN BASE.HTML -->
-
 <div class="card p-3 mb-4">
-    <div class="row g-3">
-        <div class="col-md-6">
-            <form method="get" class="d-flex">
-                <input type="text" name="search" class="form-control me-2" 
+    <div class="row g-2">
+        <div class="col-12 col-md-6 mb-2 mb-md-0">
+            <form method="get" class="d-flex flex-column flex-sm-row">
+                <input type="text" name="search" class="form-control me-2 mb-2 mb-sm-0" 
                        placeholder="Buscar por nombre..." 
                        value="{{ request.args.get('search', '') }}">
                 <button type="submit" class="btn btn-outline-primary">Buscar</button>
             </form>
         </div>
-        <div class="col-md-6">
-            <div class="d-flex align-items-center">
-                <label class="me-2 text-white">Filtrar por estado:</label>
+        <div class="col-12 col-md-6">
+            <div class="d-flex align-items-center flex-column flex-sm-row">
+                <label class="me-2 text-white mb-2 mb-sm-0">Filtrar por estado:</label>
                 <select class="form-select" onchange="window.location.href = this.value">
                     <option value="{{ url_for('proveedores.listar_proveedores') }}">Todos</option>
                     <option value="{{ url_for('proveedores.listar_proveedores') }}?estado=activo" 
@@ -45,9 +43,9 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row g-2">
     {% for proveedor in proveedores %}
-    <div class="col-md-6 col-lg-4 mb-4">
+    <div class="col-12 col-sm-6 col-lg-4 mb-3">
         <div class="card h-100 shadow-sm bg-dark text-white">
             <div class="card-body">
                 <h5 class="card-title fw-bold text-white">{{ proveedor.Nombre }}</h5>
@@ -81,22 +79,22 @@
             </div>
             
             <div class="card-footer bg-secondary">
-                <div class="btn-group w-100">
+                <div class="btn-group-vertical btn-group-sm w-100 d-block d-sm-flex">
                     <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}" 
-                       class="btn btn-outline-warning btn-sm">Editar</a>
+                       class="btn btn-outline-warning mb-1 mb-sm-0 me-sm-1">Editar</a>
                     
                     {% if proveedor.Activo %}
                     <form action="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.Id) }}" 
-                          method="post" class="d-inline">
-                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                          method="post" class="d-inline w-100">
+                        <button type="submit" class="btn btn-outline-danger w-100"
                                 onclick="return confirm('¿Desactivar este proveedor?')">
                             Desactivar
                         </button>
                     </form>
                     {% else %}
                     <form action="{{ url_for('proveedores.reactivar_proveedor', id=proveedor.Id) }}" 
-                          method="post" class="d-inline">
-                        <button type="submit" class="btn btn-outline-success btn-sm"
+                          method="post" class="d-inline w-100">
+                        <button type="submit" class="btn btn-outline-success w-100"
                                 onclick="return confirm('¿Reactivar este proveedor?')">
                             Reactivar
                         </button>
