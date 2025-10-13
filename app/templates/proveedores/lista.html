@@ -4,7 +4,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="fw-bold">Gestion de Proveedores</h1>
+        <h1 class="fw-bold text-white">Gestion de Proveedores</h1>
         <p class="text-light">Administra los proveedores del restaurante</p>
     </div>
     <div>
@@ -14,16 +14,7 @@
     </div>
 </div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+<!-- ELIMINÉ LA SECCIÓN DE MENSAJES - YA ESTÁ EN BASE.HTML -->
 
 <div class="card p-3 mb-4">
     <div class="row g-3">
@@ -37,7 +28,7 @@
         </div>
         <div class="col-md-6">
             <div class="d-flex align-items-center">
-                <label class="me-2 text-light">Filtrar por estado:</label>
+                <label class="me-2 text-white">Filtrar por estado:</label>
                 <select class="form-select" onchange="window.location.href = this.value">
                     <option value="{{ url_for('proveedores.listar_proveedores') }}">Todos</option>
                     <option value="{{ url_for('proveedores.listar_proveedores') }}?estado=activo" 
@@ -57,44 +48,44 @@
 <div class="row">
     {% for proveedor in proveedores %}
     <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm bg-dark text-white">
             <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">{{ proveedor.Nombre }}</h5>
+                <h5 class="card-title fw-bold text-white">{{ proveedor.Nombre }}</h5>
                 
-                <div class="mb-2">
+                <div class="mb-2 text-white">
                     {% if proveedor.Contacto %}
-                    <small class="text-muted">Contacto: {{ proveedor.Contacto }}</small><br>
+                    <small><strong>Contacto:</strong> {{ proveedor.Contacto }}</small><br>
                     {% endif %}
                     
                     {% if proveedor.Telefono %}
-                    <small class="text-muted">Telefono: {{ proveedor.Telefono }}</small><br>
+                    <small><strong>Telefono:</strong> {{ proveedor.Telefono }}</small><br>
                     {% endif %}
                     
                     {% if proveedor.Email %}
-                    <small class="text-muted">Email: {{ proveedor.Email }}</small><br>
+                    <small><strong>Email:</strong> {{ proveedor.Email }}</small><br>
                     {% endif %}
                     
                     {% if proveedor.Direccion %}
-                    <small class="text-muted">Direccion: {{ proveedor.Direccion|truncate(50) }}</small>
+                    <small><strong>Direccion:</strong> {{ proveedor.Direccion|truncate(50) }}</small>
                     {% endif %}
                 </div>
                 
                 <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge {% if proveedor.Estado %}bg-success{% else %}bg-secondary{% endif %}">
-                        {{ 'Activo' if proveedor.Estado else 'Inactivo' }}
+                    <span class="badge {% if proveedor.Activo %}bg-success{% else %}bg-secondary{% endif %}">
+                        {{ 'Activo' if proveedor.Activo else 'Inactivo' }}
                     </span>
-                    <small class="text-muted">
+                    <small class="text-light">
                         {{ proveedor.FechaCreacion.strftime('%d/%m/%Y') }}
                     </small>
                 </div>
             </div>
             
-            <div class="card-footer bg-transparent">
+            <div class="card-footer bg-secondary">
                 <div class="btn-group w-100">
                     <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}" 
                        class="btn btn-outline-warning btn-sm">Editar</a>
                     
-                    {% if proveedor.Estado %}
+                    {% if proveedor.Activo %}
                     <form action="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.Id) }}" 
                           method="post" class="d-inline">
                         <button type="submit" class="btn btn-outline-danger btn-sm"

@@ -78,9 +78,9 @@ def listar_proveedores():
     
     if estado:
         if estado == 'activo':
-            query = query.filter(Proveedor.Estado == True)
+            query = query.filter(Proveedor.Activo == True)  # CAMBIADO: Estado -> Activo
         elif estado == 'inactivo':
-            query = query.filter(Proveedor.Estado == False)
+            query = query.filter(Proveedor.Activo == False)  # CAMBIADO: Estado -> Activo
     
     proveedores = query.order_by(Proveedor.Nombre.asc()).all()
     return render_template('proveedores/lista.html', proveedores=proveedores)
@@ -152,7 +152,7 @@ def eliminar_proveedor(id):
     #     flash('Advertencia: Este proveedor tiene productos asociados. Se desactivara de todas formas.', 'warning')
     
     # Desactivar proveedor (eliminacion logica)
-    proveedor.Estado = False
+    proveedor.Activo = False  # CAMBIADO: Estado -> Activo
     db.session.commit()
     
     flash('Proveedor desactivado exitosamente.', 'success')
@@ -163,7 +163,7 @@ def eliminar_proveedor(id):
 def reactivar_proveedor(id):
     proveedor = Proveedor.query.get_or_404(id)
     
-    proveedor.Estado = True
+    proveedor.Activo = True  # CAMBIADO: Estado -> Activo
     db.session.commit()
     
     flash('Proveedor reactivado exitosamente.', 'success')
