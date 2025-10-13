@@ -5,40 +5,31 @@ from datetime import datetime
 
 categorias_bp = Blueprint('categorias', __name__, url_prefix='/categorias')
 
-# Listar categorías - CON DEBUG
+# Listar categorías - SOLO ACTIVAS
 @categorias_bp.route('/')
 def listar_categorias():
-    # Obtener parámetros de búsqueda y ordenamiento
     search = request.args.get('search', '')
     sort_by = request.args.get('sort_by', 'nombre')
     
-    # DEBUG: Mostrar parámetros recibidos
-    print(f"🔍 DEBUG: search='{search}', sort_by='{sort_by}'")
+    # SOLO mostrar categorías activas
+    query = Categoria.query.filter_by(Activo=True)
     
-    # Consulta base
-    query = Categoria.query
-    
-    # Aplicar filtro de búsqueda si existe
     if search:
         query = query.filter(Categoria.Nombre.ilike(f'%{search}%'))
-        print(f"🔍 FILTRANDO por: {search}")
     
-    # Aplicar ordenamiento
     if sort_by == 'fecha':
-        query = query.order_by(Categoria.FechaCreacion.desc())  # Más reciente primero
-        print("📅 ORDENANDO por fecha DESC")
+        query = query.order_by(Categoria.FechaCreacion.desc())
     else:
-        query = query.order_by(Categoria.Nombre.asc())  # Orden alfabético
-        print("📝 ORDENANDO por nombre ASC")
+        query = query.order_by(Categoria.Nombre.asc())
     
     categorias = query.all()
-    
-    # DEBUG: Mostrar fechas y orden en terminal
-    print("📊 CATEGORÍAS EN ORDEN:")
-    for i, cat in enumerate(categorias):
-        print(f"   {i+1}. {cat.Nombre} - Fecha: {cat.FechaCreacion} - Activo: {cat.Activo}")
-    
     return render_template('categorias/lista.html', categorias=categorias)
+
+# Listar categorías inactivas - NUEVA FUNCIÓN
+@categorias_bp.route('/inactivas')
+def listar_categorias_inactivas():
+    categorias = Categoria.query.filter_by(Activo=False).all()
+    return render_template('categorias/inactivas.html', categorias=categorias)
 
 # Agregar categoría
 @categorias_bp.route('/agregar', methods=['POST'])
@@ -90,12 +81,26 @@ def editar_categoria(id):
 
     return render_template('categorias/editar.html', categoria=categoria)
 
-# Eliminar categoría
+# Eliminar categoría - ELIMINACIÓN LÓGICA
 @categorias_bp.route('/eliminar/<int:id>', methods=['POST'])
 def eliminar_categoria(id):
     categoria = Categoria.query.get_or_404(id)
-
-    db.session.delete(categoria)
+    
+    # ELIMINACIÓN LÓGICA (desactivar)
+    categoria.Activo = False
     db.session.commit()
-    flash('Categoría eliminada correctamente.', 'success')
+    
+    flash('Categoría desactivada correctamente.', 'success')
     return redirect(url_for('categorias.listar_categorias'))
+
+# Reactivar categoría - NUEVA FUNCIÓN
+@categorias_bp.route('/reactivar/<int:id>', methods=['POST'])
+def reactivar_categoria(id):
+    categoria = Categoria.query.get_or_404(id)
+    
+    # Reactivar la categoría
+    categoria.Activo = True
+    db.session.commit()
+    
+    flash('Categoría reactivada correctamente.', 'success')
+    return redirect(url_for('categorias.listar_categorias_inactivas'))

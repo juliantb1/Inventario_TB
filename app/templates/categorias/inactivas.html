@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Categorías Inactivas{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1 class="fw-bold">Categorías Inactivas</h1>
+    <p class="text-light">Categorías desactivadas del sistema</p>
+    <a href="{{ url_for('categorias.listar_categorias') }}" class="btn btn-primary">
+        ← Volver a Categorías Activas
+    </a>
+</div>
+
+<div class="row">
+    {% for categoria in categorias %}
+    <div class="col-md-6 mb-4">
+        <div class="card p-3">
+            <h5 class="fw-bold">{{ categoria.Nombre }}</h5>
+            <p class="mb-1">{{ categoria.Descripcion or 'Sin descripción' }}</p>
+            
+            <small class="text-muted">
+                📅 Creado: {{ categoria.FechaCreacion.strftime('%d/%m/%Y %H:%M') }}
+            </small>
+            
+            <div class="mt-2">
+                <span class="badge bg-secondary">Inactivo</span>
+            </div>
+            
+            <div class="mt-3">
+                <form action="{{ url_for('categorias.reactivar_categoria', id=categoria.Id) }}" 
+                      method="post" 
+                      class="d-inline"
+                      onsubmit="return confirm('¿Estás seguro de que quieres reactivar esta categoría?')">
+                    <button type="submit" class="btn btn-success btn-sm">Reactivar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-light">No hay categorías inactivas.</p>
+    {% endfor %}
+</div>
+{% endblock %}

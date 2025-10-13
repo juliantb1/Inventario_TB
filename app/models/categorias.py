@@ -11,5 +11,4 @@ class Categoria(db.Model):
     FechaCreacion = db.Column(db.DateTime, nullable=False)
     
     def __repr__(self):
-        return f'<Categoria {self.Nombre}>'  # CORREGIDO: self.Nombre con mayúscula
-
+        return f'<Categoria {self.Nombre}>'
