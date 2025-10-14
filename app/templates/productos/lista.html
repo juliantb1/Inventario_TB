@@ -81,17 +81,21 @@
                             <td>
                                 {% set estado = producto.estado_stock() %}
                                 {% if estado == 'normal' %}
-                                    <span class="badge badge-success">Normal</span>
+                                    <span class="badge badge-success text-dark">Normal</span>
                                 {% elif estado == 'bajo' %}
-                                    <span class="badge badge-warning">Bajo</span>
+                                    <span class="badge badge-warning text-dark">Bajo</span>
                                 {% else %}
-                                    <span class="badge badge-danger">Crítico</span>
+                                    <span class="badge badge-danger text-dark">Crítico</span>
                                 {% endif %}
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-outline-primary">Editar</button>
-                                    <button class="btn btn-outline-danger">Eliminar</button>
+                                    <a href="{{ url_for('productos.editar_producto', id=producto.Id) }}" 
+                                       class="btn btn-outline-primary">Editar</a>
+                                    <form method="POST" action="{{ url_for('productos.eliminar_producto', id=producto.Id) }}" 
+                                          class="d-inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este producto?');">
+                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
