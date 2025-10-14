@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Entrada - TacoBell Inventario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Registrar Entrada de Stock</h2>
+        <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-secondary">
+            ← Volver a Movimientos
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                <!-- Selección de Producto -->
+                <div class="form-group">
+                    <label for="producto_id">Producto *</label>
+                    <select class="form-control" id="producto_id" name="producto_id" required>
+                        <option value="">Seleccionar producto</option>
+                        {% for producto in productos %}
+                        <option value="{{ producto.Id }}">
+                            {{ producto.CodigoSKU }} - {{ producto.Nombre }} 
+                            (Stock: {{ producto.CantidadActual }} {{ producto.UnidadMedida }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Cantidad -->
+                <div class="form-group">
+                    <label for="cantidad">Cantidad *</label>
+                    <input type="number" step="0.01" class="form-control" id="cantidad" 
+                           name="cantidad" placeholder="0.00" min="0.01" required>
+                </div>
+                
+                <!-- Motivo -->
+                <div class="form-group">
+                    <label for="motivo">Motivo de la Entrada</label>
+                    <input type="text" class="form-control" id="motivo" 
+                           name="motivo" placeholder="Ej: Compra a proveedor, ajuste de inventario...">
+                </div>
+                
+                <!-- Notas -->
+                <div class="form-group">
+                    <label for="notas">Notas Adicionales</label>
+                    <textarea class="form-control" id="notas" name="notas" rows="2" 
+                              placeholder="Notas adicionales sobre el movimiento..."></textarea>
+                </div>
+                
+                <!-- Botones -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        ✅ Registrar Entrada
+                    </button>
+                    <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Salida - TacoBell Inventario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Registrar Salida de Stock</h2>
+        <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-secondary">
+            ← Volver a Movimientos
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                <!-- Selección de Producto -->
+                <div class="form-group">
+                    <label for="producto_id">Producto *</label>
+                    <select class="form-control" id="producto_id" name="producto_id" required>
+                        <option value="">Seleccionar producto</option>
+                        {% for producto in productos %}
+                        <option value="{{ producto.Id }}" 
+                                data-stock="{{ producto.CantidadActual }}"
+                                data-unidad="{{ producto.UnidadMedida }}">
+                            {{ producto.CodigoSKU }} - {{ producto.Nombre }} 
+                            (Stock: {{ producto.CantidadActual }} {{ producto.UnidadMedida }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Cantidad con validación de stock -->
+                <div class="form-group">
+                    <label for="cantidad">Cantidad *</label>
+                    <input type="number" step="0.01" class="form-control" id="cantidad" 
+                           name="cantidad" placeholder="0.00" min="0.01" required>
+                    <small id="stock-info" class="form-text text-muted"></small>
+                </div>
+                
+                <!-- Motivo -->
+                <div class="form-group">
+                    <label for="motivo">Motivo de la Salida *</label>
+                    <input type="text" class="form-control" id="motivo" 
+                           name="motivo" placeholder="Ej: Venta, consumo interno, daño..." required>
+                </div>
+                
+                <!-- Notas -->
+                <div class="form-group">
+                    <label for="notas">Notas Adicionales</label>
+                    <textarea class="form-control" id="notas" name="notas" rows="2" 
+                              placeholder="Notas adicionales sobre el movimiento..."></textarea>
+                </div>
+                
+                <!-- Botones -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning">
+                        📤 Registrar Salida
+                    </button>
+                    <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productoSelect = document.getElementById('producto_id');
+    const cantidadInput = document.getElementById('cantidad');
+    const stockInfo = document.getElementById('stock-info');
+    
+    // Actualizar información de stock cuando se selecciona un producto
+    productoSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const stock = selectedOption.getAttribute('data-stock');
+        const unidad = selectedOption.getAttribute('data-unidad');
+        
+        if (stock && unidad) {
+            stockInfo.textContent = `Stock disponible: ${stock} ${unidad}`;
+            stockInfo.className = 'form-text text-success';
+            
+            // Establecer el máximo permitido
+            cantidadInput.setAttribute('max', stock);
+        } else {
+            stockInfo.textContent = '';
+        }
+    });
+    
+    // Validar en tiempo real que no se exceda el stock
+    cantidadInput.addEventListener('input', function() {
+        const selectedOption = productoSelect.options[productoSelect.selectedIndex];
+        const stockMax = parseFloat(selectedOption.getAttribute('data-stock'));
+        const cantidad = parseFloat(this.value);
+        
+        if (cantidad > stockMax) {
+            this.classList.add('is-invalid');
+            stockInfo.textContent = `❌ No hay suficiente stock. Máximo: ${stockMax}`;
+            stockInfo.className = 'form-text text-danger';
+        } else {
+            this.classList.remove('is-invalid');
+            const unidad = selectedOption.getAttribute('data-unidad');
+            stockInfo.textContent = `Stock disponible: ${stockMax} ${unidad}`;
+            stockInfo.className = 'form-text text-success';
+        }
+    });
+});
+</script>
+{% endblock %}

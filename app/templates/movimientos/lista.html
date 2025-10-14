@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Movimientos - TacoBell Inventario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Historial de Movimientos</h2>
+        <div>
+            <a href="{{ url_for('movimientos.registrar_entrada') }}" class="btn btn-success mr-2">
+                ➕ Entrada
+            </a>
+            <a href="{{ url_for('movimientos.registrar_salida') }}" class="btn btn-warning">
+                📤 Salida
+            </a>
+        </div>
+    </div>
+    
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row">
+                <div class="col-md-5">
+                    <select class="form-control" name="producto_id">
+                        <option value="">Todos los productos</option>
+                        {% for producto in productos %}
+                        <option value="{{ producto.Id }}" 
+                                {% if request.args.get('producto_id') == producto.Id|string %}selected{% endif %}>
+                            {{ producto.Nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <select class="form-control" name="tipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="entrada" {% if request.args.get('tipo') == 'entrada' %}selected{% endif %}>Entradas</option>
+                        <option value="salida" {% if request.args.get('tipo') == 'salida' %}selected{% endif %}>Salidas</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Tabla de Movimientos -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Motivo</th>
+                            <th>Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movimiento in movimientos %}
+                        <tr>
+                            <td>{{ movimiento.FechaCreacion.strftime('%Y-%m-%d %H:%M') if movimiento.FechaCreacion else 'N/A' }}</td>
+                            <td>
+                                <strong>{{ movimiento.producto_rel.CodigoSKU }}</strong><br>
+                                <small>{{ movimiento.producto_rel.Nombre }}</small>
+                            </td>
+                            <td>
+                                {% if movimiento.Tipo == 'entrada' %}
+                                    <span class="badge badge-success">Entrada</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Salida</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ movimiento.Cantidad }} {{ movimiento.producto_rel.UnidadMedida }}</td>
+                            <td>{{ movimiento.Motivo or '-' }}</td>
+                            <td>{{ movimiento.Notas or '-' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No se encontraron movimientos</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
