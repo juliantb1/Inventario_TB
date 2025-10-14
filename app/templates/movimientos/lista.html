@@ -70,9 +70,9 @@
                             </td>
                             <td>
                                 {% if movimiento.Tipo == 'entrada' %}
-                                    <span class="badge badge-success">Entrada</span>
+                                    <span class="badge badge-success text-dark">Entrada</span>
                                 {% else %}
-                                    <span class="badge badge-warning">Salida</span>
+                                    <span class="badge badge-warning text-dark">Salida</span>
                                 {% endif %}
                             </td>
                             <td>{{ movimiento.Cantidad }} {{ movimiento.producto_rel.UnidadMedida }}</td>

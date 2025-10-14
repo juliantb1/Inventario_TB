@@ -37,9 +37,13 @@
                 
                 <!-- Motivo -->
                 <div class="form-group">
-                    <label for="motivo">Motivo de la Entrada</label>
-                    <input type="text" class="form-control" id="motivo" 
-                           name="motivo" placeholder="Ej: Compra a proveedor, ajuste de inventario...">
+                    <label for="motivo">Motivo de la Entrada *</label>
+                    <select class="form-control" id="motivo" name="motivo" required>
+                        <option value="">Seleccionar motivo</option>
+                        <option value="Compra">Compra</option>
+                        <option value="Devolución">Devolución</option>
+                        <option value="Ajuste">Ajuste</option>
+                    </select>
                 </div>
                 
                 <!-- Notas -->

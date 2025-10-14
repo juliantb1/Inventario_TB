@@ -41,8 +41,12 @@
                 <!-- Motivo -->
                 <div class="form-group">
                     <label for="motivo">Motivo de la Salida *</label>
-                    <input type="text" class="form-control" id="motivo" 
-                           name="motivo" placeholder="Ej: Venta, consumo interno, daño..." required>
+                    <select class="form-control" id="motivo" name="motivo" required>
+                        <option value="">Seleccionar motivo</option>
+                        <option value="Producción">Producción</option>
+                        <option value="Merma">Merma</option>
+                        <option value="Vencido">Vencido</option>
+                    </select>
                 </div>
                 
                 <!-- Notas -->
