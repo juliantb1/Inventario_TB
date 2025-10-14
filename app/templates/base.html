@@ -7,61 +7,96 @@
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Fuente y colores tipo Taco Bell -->
+    <!-- Estilos personalizados -->
     <style>
+        :root {
+            --primary-color: #6b1e83;
+            --primary-hover: #9c27b0;
+            --accent-color: #d19fe8;
+            --bg-dark: #1b1b1b;
+            --card-bg: #2a2a2a;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+
         body {
-            background-color: #1b1b1b;
-            color: white;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
         .navbar {
-            background-color: #6b1e83;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         .navbar-brand {
-            color: white !important;
+            color: var(--text-light) !important;
             font-weight: 700;
             font-size: 1.4rem;
         }
+
         .navbar-nav .nav-link {
-            color: white !important;
+            color: var(--text-light) !important;
             font-weight: 500;
             padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
         }
-        .navbar-nav .nav-link:hover {
-            color: #d19fe8 !important;
-            background-color: rgba(255,255,255,0.1);
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: var(--accent-color) !important;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
         }
+
         .btn-primary {
-            background-color: #6b1e83;
+            background-color: var(--primary-color);
             border: none;
             font-weight: 500;
+            transition: background-color 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #9c27b0;
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: var(--primary-hover);
         }
+
         .card {
-            background-color: #2a2a2a;
+            background-color: var(--card-bg);
             border: none;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
         }
+
         .card:hover {
             transform: translateY(-2px);
         }
+
         .card h5 {
-            color: #d19fe8;
+            color: var(--accent-color);
         }
+
+        .alert {
+            border: none;
+            border-radius: 8px;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
-            color: #aaa;
-            margin-top: 50px;
+            color: var(--text-muted);
+            margin-top: auto;
             border-top: 1px solid #333;
-            background-color: #1b1b1b;
+            background-color: var(--bg-dark);
         }
 
         /* RESPONSIVE FIXES */
@@ -119,13 +154,14 @@
 </head>
 
 <body>
-    <!-- Navbar Profesional -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">TacoBell Inventario</a>
+            <a class="navbar-brand" href="/">Taco Bell</a>
             
             <!-- Botón para móviles -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
@@ -141,13 +177,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('proveedores.listar_proveedores') }}">Proveedores</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('productos.listar_productos') }}">Productos</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid mt-3">
-
+    <!-- Contenido principal -->
+    <main class="container-fluid mt-3 flex-grow-1">
         <!-- Bloque para mostrar mensajes flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -161,12 +200,14 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
+    <!-- Footer -->
     <footer>
         <p>© 2025 TacoBell Inventario - Sistema de Gestión</p>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

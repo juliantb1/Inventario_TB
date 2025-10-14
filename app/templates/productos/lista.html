@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Productos - TacoBell Inventario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Gestión de Productos</h2>
+    
+    <!-- Barra de búsqueda y filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="search" 
+                           placeholder="Buscar por nombre o SKU..." value="{{ request.args.get('search', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" name="categoria_id">
+                        <option value="">Todas las categorías</option>
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria.Id }}" 
+                                {% if request.args.get('categoria_id') == categoria.Id|string %}selected{% endif %}>
+                            {{ categoria.Nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" name="estado">
+                        <option value="">Todos los estados</option>
+                        <option value="normal" {% if request.args.get('estado') == 'normal' %}selected{% endif %}>Stock Normal</option>
+                        <option value="bajo" {% if request.args.get('estado') == 'bajo' %}selected{% endif %}>Stock Bajo</option>
+                        <option value="critico" {% if request.args.get('estado') == 'critico' %}selected{% endif %}>Stock Crítico</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Tabla de productos -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Lista de Productos</h5>
+            <a href="{{ url_for('productos.crear_producto') }}" class="btn btn-success">
+                + Nuevo Producto
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th>Stock Mínimo</th>
+                            <th>Precio Unitario</th>
+                            <th>Categoría</th>
+                            <th>Proveedor</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td><strong>{{ producto.CodigoSKU }}</strong></td>
+                            <td>{{ producto.Nombre }}</td>
+                            <td>{{ producto.Descripcion or '-' }}</td>
+                            <td>{{ producto.CantidadActual }}</td>
+                            <td>{{ producto.UnidadMedida }}</td>
+                            <td>{{ producto.StockMinimo }}</td>
+                            <td>₡{{ "{:,.2f}".format(producto.PrecioUnitario) }}</td>
+                            <td>{{ producto.categoria.Nombre }}</td>
+                            <td>{{ producto.proveedor.Nombre }}</td>
+                            <td>
+                                {% set estado = producto.estado_stock() %}
+                                {% if estado == 'normal' %}
+                                    <span class="badge badge-success">Normal</span>
+                                {% elif estado == 'bajo' %}
+                                    <span class="badge badge-warning">Bajo</span>
+                                {% else %}
+                                    <span class="badge badge-danger">Crítico</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary">Editar</button>
+                                    <button class="btn btn-outline-danger">Eliminar</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="11" class="text-center">No se encontraron productos</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
