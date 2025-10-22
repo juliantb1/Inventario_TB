@@ -1,36 +1,34 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard - Inventario TB{% endblock %}
+{% block title %}Dashboard - Inventario Taco Bell{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
-    <!-- Header del Dashboard MODERNO -->
+    <!-- Header del Dashboard -->
     <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
-            <h1 class="h2 text-white mb-1">
-                <i class="fas fa-chart-network me-2"></i>Panel de Control
+            <h1 class="h2 mb-2" style="font-size: 2.2rem;">
+                <i class="fas fa-chart-bar me-2 text-primary"></i>Panel de Control
             </h1>
-            <p class="text-muted mb-0">Visión general del estado de tu inventario</p>
+            <p class="text-muted mb-0" style="font-size: 1.1rem;">Resumen general del estado del inventario</p>
         </div>
-        <div class="text-light">
-            <div class="badge bg-dark text-muted">
-                <i class="fas fa-clock me-1"></i>{{ fecha_actual }}
-            </div>
+        <div class="text-muted">
+            <small style="font-size: 1rem;"><i class="fas fa-clock me-1"></i>{{ fecha_actual }}</small>
         </div>
     </div>
 
-    <!-- KPIs Principales MODERNOS -->
+    <!-- KPIs Principales -->
     <div class="row mb-5">
         <!-- Total Productos Activos -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card dashboard-card h-100">
+            <div class="card dashboard-card primary h-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="text-muted text-uppercase small fw-semibold mb-2">
-                                <i class="fas fa-cubes me-1"></i>Productos Totales
+                            <div class="text-muted text-uppercase small fw-semibold mb-2" style="font-size: 0.95rem;">
+                                <i class="fas fa-boxes me-1"></i>Total Productos
                             </div>
                             <div class="stats-number">{{ kpis.total_productos }}</div>
-                            <small class="text-muted">Activos en sistema</small>
+                            <small class="text-muted" style="font-size: 1rem;">Productos activos</small>
                         </div>
                         <div class="kpi-icon kpi-primary">
                             <i class="fas fa-boxes"></i>
@@ -42,15 +40,15 @@
 
         <!-- Productos Bajo Stock -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card dashboard-card h-100">
+            <div class="card dashboard-card warning h-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="text-muted text-uppercase small fw-semibold mb-2">
-                                <i class="fas fa-exclamation-circle me-1"></i>Stock Bajo
+                            <div class="text-muted text-uppercase small fw-semibold mb-2" style="font-size: 0.95rem;">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Stock Bajo
                             </div>
                             <div class="stats-number">{{ kpis.productos_bajo_stock }}</div>
-                            <small class="text-muted">Requieren atención</small>
+                            <small class="text-muted" style="font-size: 1rem;">Necesitan reposición</small>
                         </div>
                         <div class="kpi-icon kpi-warning">
                             <i class="fas fa-chart-line-down"></i>
@@ -62,15 +60,15 @@
 
         <!-- Productos Sin Stock -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card dashboard-card h-100">
+            <div class="card dashboard-card danger h-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="text-muted text-uppercase small fw-semibold mb-2">
-                                <i class="fas fa-times-hexagon me-1"></i>Sin Stock
+                            <div class="text-muted text-uppercase small fw-semibold mb-2" style="font-size: 0.95rem;">
+                                <i class="fas fa-times-circle me-1"></i>Sin Stock
                             </div>
                             <div class="stats-number">{{ kpis.productos_sin_stock }}</div>
-                            <small class="text-muted">Agotados</small>
+                            <small class="text-muted" style="font-size: 1rem;">Stock agotado</small>
                         </div>
                         <div class="kpi-icon kpi-danger">
                             <i class="fas fa-ban"></i>
@@ -82,18 +80,18 @@
 
         <!-- Valor Total del Inventario -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card dashboard-card h-100">
+            <div class="card dashboard-card success h-100">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="text-muted text-uppercase small fw-semibold mb-2">
+                            <div class="text-muted text-uppercase small fw-semibold mb-2" style="font-size: 0.95rem;">
                                 <i class="fas fa-coins me-1"></i>Valor Total
                             </div>
                             <div class="stats-number">₡{{ kpis.valor_total_inventario }}</div>
-                            <small class="text-muted">Valor en colones</small>
+                            <small class="text-muted" style="font-size: 1rem;">Valor en colones</small>
                         </div>
                         <div class="kpi-icon kpi-success">
-                            <i class="fas fa-piggy-bank"></i>
+                            <i class="fas fa-dollar-sign"></i>
                         </div>
                     </div>
                 </div>
@@ -101,17 +99,17 @@
         </div>
     </div>
 
-    <!-- Widgets MODERNOS -->
+    <!-- Widgets -->
     <div class="row">
         <!-- Lista de Productos Bajo Stock -->
         <div class="col-xl-6 col-lg-6 mb-4">
             <div class="card dashboard-card h-100">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center border-0">
-                    <h6 class="m-0 fw-bold">
-                        <i class="fas fa-list-check me-2"></i>Productos con Stock Bajo
+                <div class="card-header py-3 d-flex justify-content-between align-items-center border-0 bg-transparent">
+                    <h6 class="m-0 fw-bold" style="font-size: 1.2rem;">
+                        <i class="fas fa-list me-2 text-warning"></i>Productos con Stock Bajo
                     </h6>
-                    <a href="{{ url_for('productos.listar_productos') }}?estado=bajo" class="btn btn-primary btn-sm">
-                        <i class="fas fa-arrow-right me-1"></i>Ver Todos
+                    <a href="{{ url_for('productos.listar_productos') }}?estado=bajo" class="btn btn-outline-warning btn-sm" style="font-size: 1rem;">
+                        <i class="fas fa-eye me-1"></i>Ver Todos
                     </a>
                 </div>
                 <div class="card-body pt-0">
@@ -120,26 +118,26 @@
                         <table class="table table-hover align-middle">
                             <thead>
                                 <tr class="text-muted">
-                                    <th class="border-0">Producto</th>
-                                    <th class="border-0 text-center">Stock Actual</th>
-                                    <th class="border-0 text-center">Mínimo</th>
-                                    <th class="border-0 text-center">Acción</th>
+                                    <th class="border-0" style="font-size: 1.05rem;">Producto</th>
+                                    <th class="border-0 text-center" style="font-size: 1.05rem;">Stock Actual</th>
+                                    <th class="border-0 text-center" style="font-size: 1.05rem;">Mínimo</th>
+                                    <th class="border-0 text-center" style="font-size: 1.05rem;">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for producto in productos_bajo_stock %}
                                 <tr>
-                                    <td class="fw-semibold">{{ producto.Nombre }}</td>
+                                    <td class="fw-semibold" style="font-size: 1.05rem;">{{ producto.Nombre }}</td>
                                     <td class="text-center">
-                                        <span class="badge bg-{% if producto.CantidadActual == 0 %}danger{% else %}warning{% endif %}">
+                                        <span class="badge bg-{% if producto.CantidadActual == 0 %}danger{% else %}warning{% endif %}" style="font-size: 0.95rem;">
                                             {{ producto.CantidadActual }}
                                         </span>
                                     </td>
-                                    <td class="text-center text-muted">{{ producto.StockMinimo }}</td>
+                                    <td class="text-center text-muted" style="font-size: 1.05rem;">{{ producto.StockMinimo }}</td>
                                     <td class="text-center">
                                         <a href="{{ url_for('productos.editar_producto', id=producto.Id) }}" 
-                                           class="btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-eye me-1"></i>Detalle
+                                           class="btn btn-outline-primary btn-sm" style="font-size: 0.95rem;">
+                                            <i class="fas fa-edit me-1"></i>Gestionar
                                         </a>
                                     </td>
                                 </tr>
@@ -149,9 +147,9 @@
                     </div>
                     {% else %}
                     <div class="text-center py-5">
-                        <i class="fas fa-check-circle fa-4x text-success mb-3 opacity-50"></i>
-                        <h5 class="text-success">Inventario Optimizado</h5>
-                        <p class="text-muted">Todos los productos tienen stock suficiente</p>
+                        <i class="fas fa-check-circle fa-3x text-success mb-3 opacity-50"></i>
+                        <h5 class="text-success" style="font-size: 1.3rem;">Inventario Optimizado</h5>
+                        <p class="text-muted" style="font-size: 1.1rem;">Todos los productos tienen stock suficiente</p>
                     </div>
                     {% endif %}
                 </div>
@@ -161,11 +159,11 @@
         <!-- Últimos Movimientos -->
         <div class="col-xl-6 col-lg-6 mb-4">
             <div class="card dashboard-card h-100">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center border-0">
-                    <h6 class="m-0 fw-bold">
-                        <i class="fas fa-history me-2"></i>Actividad Reciente
+                <div class="card-header py-3 d-flex justify-content-between align-items-center border-0 bg-transparent">
+                    <h6 class="m-0 fw-bold" style="font-size: 1.2rem;">
+                        <i class="fas fa-history me-2 text-primary"></i>Actividad Reciente
                     </h6>
-                    <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-outline-primary btn-sm" style="font-size: 1rem;">
                         <i class="fas fa-list me-1"></i>Historial
                     </a>
                 </div>
@@ -175,19 +173,19 @@
                         <table class="table table-hover align-middle">
                             <thead>
                                 <tr class="text-muted">
-                                    <th class="border-0">Fecha</th>
-                                    <th class="border-0">Producto</th>
-                                    <th class="border-0 text-center">Tipo</th>
-                                    <th class="border-0 text-center">Cantidad</th>
+                                    <th class="border-0" style="font-size: 1.05rem;">Fecha</th>
+                                    <th class="border-0" style="font-size: 1.05rem;">Producto</th>
+                                    <th class="border-0 text-center" style="font-size: 1.05rem;">Tipo</th>
+                                    <th class="border-0 text-center" style="font-size: 1.05rem;">Cantidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for movimiento in ultimos_movimientos %}
                                 <tr>
                                     <td class="text-nowrap">
-                                        <small class="text-muted">{{ movimiento.FechaCreacion.strftime('%d/%m/%Y %H:%M') }}</small>
+                                        <small class="text-muted" style="font-size: 1rem;">{{ movimiento.FechaCreacion.strftime('%d/%m/%Y %H:%M') }}</small>
                                     </td>
-                                    <td class="fw-semibold">
+                                    <td class="fw-semibold" style="font-size: 1.05rem;">
                                         {% if movimiento.producto_rel %}
                                             {{ movimiento.producto_rel.Nombre }}
                                         {% else %}
@@ -195,12 +193,12 @@
                                         {% endif %}
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-{% if movimiento.Tipo == 'entrada' %}success{% else %}danger{% endif %}">
+                                        <span class="badge bg-{% if movimiento.Tipo == 'entrada' %}success{% else %}danger{% endif %}" style="font-size: 0.95rem;">
                                             <i class="fas fa-{% if movimiento.Tipo == 'entrada' %}arrow-down{% else %}arrow-up{% endif %} me-1"></i>
                                             {{ movimiento.Tipo|title }}
                                         </span>
                                     </td>
-                                    <td class="text-center fw-bold {% if movimiento.Tipo == 'entrada' %}text-success{% else %}text-danger{% endif %}">
+                                    <td class="text-center fw-bold {% if movimiento.Tipo == 'entrada' %}text-success{% else %}text-danger{% endif %}" style="font-size: 1.05rem;">
                                         {{ movimiento.Cantidad }}
                                     </td>
                                 </tr>
@@ -210,9 +208,9 @@
                     </div>
                     {% else %}
                     <div class="text-center py-5">
-                        <i class="fas fa-history fa-4x text-muted mb-3 opacity-50"></i>
-                        <h5 class="text-muted">Sin Actividad</h5>
-                        <p class="text-muted">No hay movimientos registrados</p>
+                        <i class="fas fa-history fa-3x text-muted mb-3 opacity-50"></i>
+                        <h5 class="text-muted" style="font-size: 1.3rem;">Sin Actividad</h5>
+                        <p class="text-muted" style="font-size: 1.1rem;">No hay movimientos registrados</p>
                     </div>
                     {% endif %}
                 </div>
@@ -220,37 +218,37 @@
         </div>
     </div>
 
-    <!-- Accesos Rápidos MODERNOS -->
+    <!-- Accesos Rápidos -->
     <div class="row">
         <div class="col-12">
             <div class="card dashboard-card">
-                <div class="card-header py-3 border-0">
-                    <h6 class="m-0 fw-bold">
-                        <i class="fas fa-thunderstorm me-2"></i>Accesos Directos
+                <div class="card-header py-3 border-0 bg-transparent">
+                    <h6 class="m-0 fw-bold" style="font-size: 1.2rem;">
+                        <i class="fas fa-rocket me-2 text-primary"></i>Accesos Directos
                     </h6>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-3 col-6">
-                            <a href="{{ url_for('categorias.listar_categorias') }}" class="btn btn-outline-primary btn-lg w-100 py-4">
-                                <i class="fas fa-layer-group fa-2x mb-2 d-block"></i>
+                            <a href="{{ url_for('categorias.listar_categorias') }}" class="btn btn-outline-primary btn-lg w-100 py-3" style="font-size: 1.1rem;">
+                                <i class="fas fa-tags fa-2x mb-2 d-block"></i>
                                 Categorías
                             </a>
                         </div>
                         <div class="col-md-3 col-6">
-                            <a href="{{ url_for('proveedores.listar_proveedores') }}" class="btn btn-outline-success btn-lg w-100 py-4">
-                                <i class="fas fa-truck-loading fa-2x mb-2 d-block"></i>
+                            <a href="{{ url_for('proveedores.listar_proveedores') }}" class="btn btn-outline-success btn-lg w-100 py-3" style="font-size: 1.1rem;">
+                                <i class="fas fa-truck fa-2x mb-2 d-block"></i>
                                 Proveedores
                             </a>
                         </div>
                         <div class="col-md-3 col-6">
-                            <a href="{{ url_for('productos.listar_productos') }}" class="btn btn-outline-warning btn-lg w-100 py-4">
-                                <i class="fas fa-pallet fa-2x mb-2 d-block"></i>
+                            <a href="{{ url_for('productos.listar_productos') }}" class="btn btn-outline-warning btn-lg w-100 py-3" style="font-size: 1.1rem;">
+                                <i class="fas fa-box fa-2x mb-2 d-block"></i>
                                 Productos
                             </a>
                         </div>
                         <div class="col-md-3 col-6">
-                            <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-outline-info btn-lg w-100 py-4">
+                            <a href="{{ url_for('movimientos.listar_movimientos') }}" class="btn btn-outline-info btn-lg w-100 py-3" style="font-size: 1.1rem;">
                                 <i class="fas fa-exchange-alt fa-2x mb-2 d-block"></i>
                                 Movimientos
                             </a>

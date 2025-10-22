@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Inventario TB{% endblock %}</title>
+    <title>{% block title %}Inventario Taco Bell{% endblock %}</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,113 +14,142 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Estilos personalizados MODERNOS -->
+    <!-- Estilos profesionales para inventario -->
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --accent-color: #60a5fa;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --card-hover: #334155;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
+            /* Modo Claro (default) */
+            --primary-color: #E65100;          /* Naranja Taco Bell suavizado */
+            --primary-hover: #BF360C;          /* Naranja más oscuro */
+            --success-color: #2E7D32;          /* Verde suavizado */
+            --warning-color: #F57C00;          /* Amarillo anaranjado suave */
+            --danger-color: #C62828;           /* Rojo suavizado */
+            --info-color: #1565C0;             /* Azul suavizado */
+            --bg-color: #FAFAFA;               /* Fondo muy claro */
+            --card-bg: #FFFFFF;                /* Fondo de cards blanco */
+            --text-primary: #212529;           /* Texto principal */
+            --text-secondary: #6C757D;         /* Texto secundario */
+            --text-muted: #8E8E8E;             /* Texto muted */
+            --border-color: #E0E0E0;           /* Bordes suaves */
+            --navbar-bg: #E65100;              /* Navbar naranja */
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        [data-theme="dark"] {
+            /* Modo Oscuro */
+            --primary-color: #FF9800;          /* Naranja más brillante para oscuro */
+            --primary-hover: #FFB74D;          /* Naranja claro */
+            --success-color: #4CAF50;          /* Verde más vivo */
+            --warning-color: #FFB300;          /* Amarillo más visible */
+            --danger-color: #F44336;           /* Rojo más vivo */
+            --info-color: #2196F3;             /* Azul más vivo */
+            --bg-color: #121212;               /* Fondo oscuro */
+            --card-bg: #1E1E1E;                /* Cards oscuros */
+            --text-primary: #E0E0E0;           /* Texto principal claro */
+            --text-secondary: #B0B0B0;         /* Texto secundario */
+            --text-muted: #9E9E9E;             /* Texto muted */
+            --border-color: #333333;           /* Bordes oscuros */
+            --navbar-bg: #1A1A1A;              /* Navbar oscuro */
+            --shadow: 0 2px 12px rgba(0,0,0,0.3);
         }
 
         body {
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
-            color: var(--text-light);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
+            font-size: 16px; /* Tamaño de fuente base aumentado */
+            line-height: 1.6; /* Mejor legibilidad */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
 
         .navbar {
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
+            background: var(--navbar-bg);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
         }
 
         .navbar-brand {
-            color: var(--text-light) !important;
+            color: white !important;
             font-weight: 700;
-            font-size: 1.4rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 1.5rem; /* Más grande */
         }
 
         .navbar-nav .nav-link {
-            color: var(--text-muted) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 500;
-            padding: 0.5rem 1rem;
+            font-size: 1.05rem; /* Más grande */
+            padding: 0.6rem 1.2rem; /* Más espacioso */
             border-radius: 8px;
             transition: all 0.3s ease;
-            margin: 0 2px;
+            margin: 0 3px;
         }
 
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
-            color: var(--text-light) !important;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-1px);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: var(--primary-color);
             border: none;
             font-weight: 600;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 20px rgba(230, 81, 0, 0.25);
+            background: var(--primary-hover);
+            color: white;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            color: var(--text-light);
-            border-radius: 16px;
+            color: var(--text-primary);
+            border-radius: 12px;
             transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            font-size: 1rem; /* Texto más grande en cards */
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            background: var(--card-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .alert {
             border: none;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border-left: 4px solid;
+            font-size: 1rem; /* Alertas más legibles */
         }
 
         footer {
             text-align: center;
             padding: 25px;
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-top: auto;
             border-top: 1px solid var(--border-color);
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--card-bg);
+            font-size: 1rem;
         }
 
-        /* Estilos específicos para el dashboard MODERNOS */
+        /* Estilos específicos para el dashboard */
         .dashboard-card {
-            background: linear-gradient(135deg, var(--card-bg) 0%, #1e293b 100%);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            transition: all 0.4s ease;
+            border-radius: 12px;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-size: 1.05rem; /* Texto más grande */
         }
 
         .dashboard-card::before {
@@ -130,137 +159,157 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
-        .dashboard-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
+        .dashboard-card.primary::before { background: var(--primary-color); }
+        .dashboard-card.success::before { background: var(--success-color); }
+        .dashboard-card.warning::before { background: var(--warning-color); }
+        .dashboard-card.danger::before { background: var(--danger-color); }
 
         .kpi-icon {
-            width: 70px;
+            width: 70px; /* Más grande */
             height: 70px;
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            font-size: 1.8rem; /* Íconos más grandes */
+            color: white;
+            transition: all 0.3s ease;
         }
 
-        .kpi-primary { color: var(--primary-color); }
-        .kpi-success { color: var(--success-color); }
-        .kpi-warning { color: var(--warning-color); }
-        .kpi-danger { color: var(--danger-color); }
+        .kpi-primary { background: var(--primary-color); }
+        .kpi-success { background: var(--success-color); }
+        .kpi-warning { background: var(--warning-color); }
+        .kpi-danger { background: var(--danger-color); }
 
         .stats-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--text-light), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
+            font-size: 2.5rem; /* Números más grandes */
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
         }
 
         /* Mejoras para las tablas */
         .table {
             --bs-table-bg: transparent;
-            --bs-table-color: var(--text-light);
+            --bs-table-color: var(--text-primary);
             border-color: var(--border-color);
+            font-size: 1.05rem; /* Tablas más legibles */
         }
 
         .table-hover tbody tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: scale(1.01);
-            transition: all 0.3s ease;
+            background-color: rgba(230, 81, 0, 0.08);
+            transition: all 0.2s ease;
         }
 
-        .table-dark {
-            --bs-table-bg: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Badges modernos */
+        /* Badges profesionales */
         .badge {
             font-weight: 600;
-            padding: 0.6em 1em;
-            border-radius: 10px;
-            font-size: 0.85em;
+            padding: 0.6em 1em; /* Más grandes */
+            border-radius: 8px;
+            font-size: 0.9rem; /* Texto más grande */
         }
 
-        /* Botones modernos */
+        /* Botones profesionales */
         .btn {
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 1rem; /* Botones más legibles */
             transition: all 0.3s ease;
-            border: none;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #34d399);
+        .btn-success { background: var(--success-color); border: none; color: white; }
+        .btn-warning { background: var(--warning-color); border: none; color: white; }
+        .btn-info { background: var(--info-color); border: none; color: white; }
+        .btn-danger { background: var(--danger-color); border: none; color: white; }
+
+        .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+        .btn-outline-success { border-color: var(--success-color); color: var(--success-color); }
+        .btn-outline-warning { border-color: var(--warning-color); color: var(--warning-color); }
+        .btn-outline-info { border-color: var(--info-color); color: var(--info-color); }
+
+        /* Selector de tema */
+        .theme-switcher {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning-color), #fbbf24);
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #06b6d4, #0ea5e9);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger-color), #f87171);
+        .theme-switcher:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
         /* RESPONSIVE */
         .container-fluid {
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 25px;
+            padding-right: 25px;
         }
 
         @media (max-width: 768px) {
             .container-fluid {
-                padding-left: 15px;
-                padding-right: 15px;
+                padding-left: 20px;
+                padding-right: 20px;
             }
             
             .stats-number {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .kpi-icon {
                 width: 60px;
                 height: 60px;
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+
+            body {
+                font-size: 15px;
             }
         }
 
         @media (max-width: 576px) {
             .container-fluid {
-                padding-left: 10px;
-                padding-right: 10px;
+                padding-left: 15px;
+                padding-right: 15px;
             }
-            
-            .dashboard-card:hover {
-                transform: translateY(-3px);
+
+            .navbar-brand {
+                font-size: 1.3rem;
             }
+        }
+
+        /* Mejoras de legibilidad */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-secondary {
+            color: var(--text-secondary) !important;
         }
     </style>
 </head>
 
-<body>
-    <!-- Navbar MODERNO -->
+<body data-theme="light">
+    <!-- Navbar profesional -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-chart-line me-2"></i>Inventario TB
+                <i class="fas fa-utensils me-2"></i>Taco Bell - Inventario
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -272,12 +321,12 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link active" href="/">
-                            <i class="fas fa-home me-1"></i>Dashboard
+                            <i class="fas fa-chart-bar me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('categorias.listar_categorias') }}">
-                            <i class="fas fa-layer-group me-1"></i>Categorías
+                            <i class="fas fa-tags me-1"></i>Categorías
                         </a>
                     </li>
                     <li class="nav-item">
@@ -287,13 +336,18 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('productos.listar_productos') }}">
-                            <i class="fas fa-pallet me-1"></i>Productos
+                            <i class="fas fa-box me-1"></i>Productos
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('movimientos.listar_movimientos') }}">
                             <i class="fas fa-exchange-alt me-1"></i>Movimientos
                         </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="theme-switcher" onclick="toggleTheme()">
+                            <i class="fas fa-moon me-1"></i>Modo Oscuro
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -309,7 +363,7 @@
                     <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
                         <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-2"></i>
                         {{ message }}
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -320,39 +374,50 @@
 
     <!-- Footer -->
     <footer>
-        <p class="mb-0">© 2025 TacoBell Inventario - Sistema de Gestión Profesional</p>
+        <p class="mb-0">© 2025 Taco Bell - Sistema de Gestión de Inventario</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- JavaScript para animaciones suaves -->
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Animación de aparición para las cards
-        const cards = document.querySelectorAll('.dashboard-card');
-        cards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px) scale(0.95)';
+        // Sistema de tema claro/oscuro
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             
-            setTimeout(() => {
-                card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0) scale(1)';
-            }, index * 150);
-        });
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Actualizar texto del botón
+            const themeButton = document.querySelector('.theme-switcher');
+            const icon = themeButton.querySelector('i');
+            const text = themeButton.querySelector('span') || document.createElement('span');
+            
+            if (newTheme === 'dark') {
+                icon.className = 'fas fa-sun me-1';
+                text.textContent = 'Modo Claro';
+            } else {
+                icon.className = 'fas fa-moon me-1';
+                text.textContent = 'Modo Oscuro';
+            }
+            
+            if (!themeButton.querySelector('span')) {
+                themeButton.appendChild(text);
+            }
+        }
 
-        // Efecto de hover mejorado
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
+        // Cargar tema guardado
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
+            // Configurar botón según el tema
+            if (savedTheme === 'dark') {
+                const themeButton = document.querySelector('.theme-switcher');
+                themeButton.innerHTML = '<i class="fas fa-sun me-1"></i><span>Modo Claro</span>';
+            }
         });
-    });
     </script>
 </body>
 </html>
