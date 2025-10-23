@@ -4,7 +4,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
     <div class="text-center text-md-start mb-3 mb-md-0">
-        <h1 class="fw-bold text-white">Gestion de Proveedores</h1>
+        <h1 class="fw-bold">Gestión de Proveedores</h1>
         <p class="text-light">Administra los proveedores del restaurante</p>
     </div>
     <div>
@@ -43,77 +43,163 @@
     </div>
 </div>
 
-<div class="row g-2">
-    {% for proveedor in proveedores %}
-    <div class="col-12 col-sm-6 col-lg-4 mb-3">
-        <div class="card h-100 shadow-sm bg-dark text-white">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-white">{{ proveedor.Nombre }}</h5>
-                
-                <div class="mb-2 text-white">
-                    {% if proveedor.Contacto %}
-                    <small><strong>Contacto:</strong> {{ proveedor.Contacto }}</small><br>
-                    {% endif %}
-                    
-                    {% if proveedor.Telefono %}
-                    <small><strong>Telefono:</strong> {{ proveedor.Telefono }}</small><br>
-                    {% endif %}
-                    
-                    {% if proveedor.Email %}
-                    <small><strong>Email:</strong> {{ proveedor.Email }}</small><br>
-                    {% endif %}
-                    
-                    {% if proveedor.Direccion %}
-                    <small><strong>Direccion:</strong> {{ proveedor.Direccion|truncate(50) }}</small>
-                    {% endif %}
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge {% if proveedor.Activo %}bg-success{% else %}bg-secondary{% endif %}">
-                        {{ 'Activo' if proveedor.Activo else 'Inactivo' }}
-                    </span>
-                    <small class="text-light">
-                        {{ proveedor.FechaCreacion.strftime('%d/%m/%Y') }}
-                    </small>
-                </div>
-            </div>
-            
-            <div class="card-footer bg-secondary">
-                <div class="btn-group-vertical btn-group-sm w-100 d-block d-sm-flex">
-                    <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}" 
-                       class="btn btn-outline-warning mb-1 mb-sm-0 me-sm-1">Editar</a>
-                    
-                    {% if proveedor.Activo %}
-                    <form action="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.Id) }}" 
-                          method="post" class="d-inline w-100">
-                        <button type="submit" class="btn btn-outline-danger w-100"
-                                onclick="return confirm('¿Desactivar este proveedor?')">
-                            Desactivar
-                        </button>
-                    </form>
-                    {% else %}
-                    <form action="{{ url_for('proveedores.reactivar_proveedor', id=proveedor.Id) }}" 
-                          method="post" class="d-inline w-100">
-                        <button type="submit" class="btn btn-outline-success w-100"
-                                onclick="return confirm('¿Reactivar este proveedor?')">
-                            Reactivar
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
+<!-- TABLA PARA ESCRITORIO (se oculta en móviles) -->
+<div class="d-none d-md-block">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr class="text-muted">
+                            <th>Proveedor</th>
+                            <th>Contacto</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Fecha Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for proveedor in proveedores %}
+                        <tr>
+                            <td class="fw-semibold">{{ proveedor.Nombre }}</td>
+                            <td>{{ proveedor.Contacto or 'N/A' }}</td>
+                            <td>{{ proveedor.Telefono or 'N/A' }}</td>
+                            <td>
+                                {% if proveedor.Email %}
+                                <small>{{ proveedor.Email }}</small>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge {% if proveedor.Activo %}bg-success{% else %}bg-secondary{% endif %}">
+                                    {{ 'Activo' if proveedor.Activo else 'Inactivo' }}
+                                </span>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ proveedor.FechaCreacion.strftime('%d/%m/%Y') }}</small>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}" 
+                                       class="btn btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    {% if proveedor.Activo %}
+                                    <form action="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.Id) }}" 
+                                          method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-danger"
+                                                onclick="return confirm('¿Desactivar este proveedor?')">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <form action="{{ url_for('proveedores.reactivar_proveedor', id=proveedor.Id) }}" 
+                                          method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-success"
+                                                onclick="return confirm('¿Reactivar este proveedor?')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    {% else %}
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-            <h5>No hay proveedores registrados</h5>
-            <p>Comienza agregando tu primer proveedor al sistema.</p>
-            <a href="{{ url_for('proveedores.crear_proveedor') }}" class="btn btn-primary">
-                Agregar Primer Proveedor
-            </a>
+</div>
+
+<!-- CARDS PARA MÓVIL (se muestran solo en móviles) -->
+<div class="d-md-none">
+    <div class="row g-2">
+        {% for proveedor in proveedores %}
+        <div class="col-12 mb-3">
+            <div class="card h-100 shadow-sm bg-dark text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold text-white">{{ proveedor.Nombre }}</h5>
+                        <span class="badge {% if proveedor.Activo %}bg-success{% else %}bg-secondary{% endif %}">
+                            {{ 'Activo' if proveedor.Activo else 'Inactivo' }}
+                        </span>
+                    </div>
+                    
+                    <div class="mb-3 text-white">
+                        {% if proveedor.Contacto %}
+                        <div class="mb-1">
+                            <small><strong>Contacto:</strong> {{ proveedor.Contacto }}</small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if proveedor.Telefono %}
+                        <div class="mb-1">
+                            <small><strong>Teléfono:</strong> {{ proveedor.Telefono }}</small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if proveedor.Email %}
+                        <div class="mb-1">
+                            <small><strong>Email:</strong> {{ proveedor.Email }}</small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if proveedor.Direccion %}
+                        <div class="mb-1">
+                            <small><strong>Dirección:</strong> {{ proveedor.Direccion|truncate(50) }}</small>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mt-2">
+                            <small class="text-light">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ proveedor.FechaCreacion.strftime('%d/%m/%Y') }}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group-vertical btn-group-sm w-100">
+                        <a href="{{ url_for('proveedores.editar_proveedor', id=proveedor.Id) }}" 
+                           class="btn btn-outline-warning mb-1">
+                            <i class="fas fa-edit me-1"></i>Editar
+                        </a>
+                        
+                        {% if proveedor.Activo %}
+                        <form action="{{ url_for('proveedores.eliminar_proveedor', id=proveedor.Id) }}" 
+                              method="post" class="d-inline w-100">
+                            <button type="submit" class="btn btn-outline-danger w-100"
+                                    onclick="return confirm('¿Desactivar este proveedor?')">
+                                <i class="fas fa-ban me-1"></i>Desactivar
+                            </button>
+                        </form>
+                        {% else %}
+                        <form action="{{ url_for('proveedores.reactivar_proveedor', id=proveedor.Id) }}" 
+                              method="post" class="d-inline w-100">
+                            <button type="submit" class="btn btn-outline-success w-100"
+                                    onclick="return confirm('¿Reactivar este proveedor?')">
+                                <i class="fas fa-check me-1"></i>Reactivar
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h5>No hay proveedores registrados</h5>
+                <p>Comienza agregando tu primer proveedor al sistema.</p>
+                <a href="{{ url_for('proveedores.crear_proveedor') }}" class="btn btn-primary">
+                    Agregar Primer Proveedor
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
